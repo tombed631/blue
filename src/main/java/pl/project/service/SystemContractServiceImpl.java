@@ -38,19 +38,13 @@ public class SystemContractServiceImpl implements SystemContractService {
 
     @Transactional
     @Override
-    public void addOrUpdateSystemContract(SystemContract systemContract) {
-
-
-
-
-
-
+    public void addSystemContract(SystemContract systemContract) {
+        systemContractDao.addSystemContract(systemContract);
     }
-
 
     @Transactional
     @Override
     public void deleteSystemContract(Integer id) {
-
+        systemContractDao.deleteById(id);
     }
 }

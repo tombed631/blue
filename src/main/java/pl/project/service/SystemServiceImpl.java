@@ -32,7 +32,8 @@ public class SystemServiceImpl implements SystemService{
     }
 
     @Override
-    public void addOrUpdateSystem(System system) {
+    public void addSystem(System system)
+    {
         systemDao.addSystem(system);
     }
 

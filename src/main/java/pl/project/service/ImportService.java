@@ -15,4 +15,5 @@ public interface ImportService {
     void readExcelFile(MultipartFile file) throws Exception;
     boolean checkCellValues(Cell cell, Integer columnIndex);
     boolean validDate(java.util.Date date);
+
 }

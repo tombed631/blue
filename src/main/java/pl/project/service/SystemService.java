@@ -12,7 +12,7 @@ public interface SystemService {
 
     List<System> getAllSystems();
     System getSystem(Integer id);
-    void addOrUpdateSystem(System system);
+    void addSystem(System system);
     void deleteSystem(Integer id);
 
 

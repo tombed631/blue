@@ -2,16 +2,14 @@ package pl.project.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MultipartFile;
 import pl.project.domain.System;
 import pl.project.domain.SystemContract;
 import pl.project.exception.CustomException;
-import pl.project.service.ImportService;
-import pl.project.service.SystemContractService;
-import pl.project.service.SystemContractServiceImpl;
-import pl.project.service.SystemServiceImpl;
+import pl.project.service.*;
 
 import java.util.List;
 
@@ -22,11 +20,14 @@ import java.util.List;
 public class UploadController {
 
     @Autowired
-    ImportService importService;
+    ImportServiceImpl importService;
 
 
     @Autowired
     SystemServiceImpl systemService;
+
+    @Autowired
+    SystemContractServiceImpl systemContractService;
 
     @RequestMapping("/upload")
     public String upload(@RequestParam("file") MultipartFile file) throws Exception {
@@ -39,9 +40,33 @@ public class UploadController {
             throw new CustomException("Empty file.");
 
          importService.readExcelFile(file);
-         System system = systemService.getSystem(1);
-         List<System> s = systemService.getAllSystems();
-         return "file name:" + file.getOriginalFilename() + " content:" ;
+
+         List<System> systemList = importService.getSystemList();
+        List<SystemContract> systemContractList = importService.getSystemContractList();
+        for(System system: systemList)
+        {
+             try
+             {
+                 systemService.addSystem(system);
+             }
+             catch(DataIntegrityViolationException e)
+             {
+                e.getMessage();
+             }
+        }
+        for(SystemContract systemContract: systemContractList)
+        {
+            try
+            {
+               systemContractService.addSystemContract(systemContract);
+            }
+            catch(DataIntegrityViolationException e)
+            {
+                e.getMessage();
+            }
+        }
+
+        return "file name:" + file.getOriginalFilename() + " content:" ;
 
     }
 

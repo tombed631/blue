@@ -12,7 +12,7 @@ public interface SystemContractService {
 
      List<SystemContract> getAllSystemContracts();
      SystemContract getSystemContract(Integer id);
-     void addOrUpdateSystemContract(SystemContract systemContract);
+     void addSystemContract(SystemContract systemContract);
      void deleteSystemContract(Integer id);
 
 

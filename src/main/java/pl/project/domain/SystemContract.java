@@ -30,6 +30,10 @@ public class SystemContract {
     @Column(name = "amount_period",nullable = false)
     private String amountPeriod;
 
+    @Column(name = "amount_type",nullable = false)
+    private String amountType;
+
+
     @Column(name = "authorization_percent",nullable = false)
     private Double authorizationPercent;
 
@@ -44,7 +48,6 @@ public class SystemContract {
 
     @Column(name ="order_number",nullable = false)
     private String orderNumber;
-
 
     public Integer getId() {
         return id;
@@ -84,6 +87,14 @@ public class SystemContract {
 
     public void setAmountPeriod(String amountPeriod) {
         this.amountPeriod = amountPeriod;
+    }
+
+    public String getAmountType() {
+        return amountType;
+    }
+
+    public void setAmountType(String amountType) {
+        this.amountType = amountType;
     }
 
     public Double getAuthorizationPercent() {
@@ -138,6 +149,7 @@ public class SystemContract {
         if (!active.equals(that.active)) return false;
         if (!amount.equals(that.amount)) return false;
         if (!amountPeriod.equals(that.amountPeriod)) return false;
+        if (!amountType.equals(that.amountType)) return false;
         if (!authorizationPercent.equals(that.authorizationPercent)) return false;
         if (!fromDate.equals(that.fromDate)) return false;
         if (!toDate.equals(that.toDate)) return false;
@@ -152,6 +164,7 @@ public class SystemContract {
         result = 31 * result + active.hashCode();
         result = 31 * result + amount.hashCode();
         result = 31 * result + amountPeriod.hashCode();
+        result = 31 * result + amountType.hashCode();
         result = 31 * result + authorizationPercent.hashCode();
         result = 31 * result + fromDate.hashCode();
         result = 31 * result + toDate.hashCode();
