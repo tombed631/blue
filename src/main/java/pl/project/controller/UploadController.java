@@ -41,7 +41,7 @@ public class UploadController {
          importService.readExcelFile(file);
          System system = systemService.getSystem(1);
          List<System> s = systemService.getAllSystems();
-         return "file name:" + file.getOriginalFilename() + "<br> content:" ;
+         return "file name:" + file.getOriginalFilename() + " content:" ;
 
     }
 
