@@ -52,7 +52,7 @@ public class UploadController {
                systemContractService.addSystemContract(systemContract);
         }
 
-        return "red" ;
+        return "redirect:/" ;
 
     }
 
