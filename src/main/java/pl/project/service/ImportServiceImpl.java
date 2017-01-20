@@ -34,6 +34,9 @@ public class ImportServiceImpl implements ImportService {
     private ArrayList<SystemContract> systemContractList;
 
 
+    @Autowired
+    SystemServiceImpl systemService;
+
     @Override
     public void readExcelFile(MultipartFile file) throws Exception {
 
@@ -71,6 +74,8 @@ public class ImportServiceImpl implements ImportService {
                     columnIndex++;
 
                 }
+                if(systemService.getSystemByName(system.getName())!=null)
+                    system = systemService.getSystemByName(system.getName());
                 systemContract.setSystem(system);
                 systemContractList.add(systemContract);
                 systemList.add(system);

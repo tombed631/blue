@@ -24,7 +24,7 @@ public class UploadController {
 
 
     @Autowired
-    SystemServiceImpl systemService;
+    SystemService systemService;
 
     @Autowired
     SystemContractServiceImpl systemContractService;
@@ -39,34 +39,20 @@ public class UploadController {
         if (file.getBytes() == null)
             throw new CustomException("Empty file.");
 
-         importService.readExcelFile(file);
-
-         List<System> systemList = importService.getSystemList();
+        importService.readExcelFile(file);
+        List<System> systemList = importService.getSystemList();
         List<SystemContract> systemContractList = importService.getSystemContractList();
         for(System system: systemList)
         {
-             try
-             {
+           if(systemService.getSystemByName(system.getName())==null)
                  systemService.addSystem(system);
-             }
-             catch(DataIntegrityViolationException e)
-             {
-                e.getMessage();
-             }
         }
         for(SystemContract systemContract: systemContractList)
         {
-            try
-            {
                systemContractService.addSystemContract(systemContract);
-            }
-            catch(DataIntegrityViolationException e)
-            {
-                e.getMessage();
-            }
         }
 
-        return "file name:" + file.getOriginalFilename() + " content:" ;
+        return "red" ;
 
     }
 

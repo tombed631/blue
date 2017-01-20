@@ -1,6 +1,9 @@
 package pl.project.service;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +24,9 @@ public class SystemServiceImpl implements SystemService{
     @Autowired
     SystemDaoImpl systemDao;
 
+    @Autowired
+    SessionFactory sessionFactory;
+
     @Override
     public List<System> getAllSystems() {
         return systemDao.getAll();
@@ -40,5 +46,14 @@ public class SystemServiceImpl implements SystemService{
     @Override
     public void deleteSystem(Integer id) {
         systemDao.deleteById(id);
+    }
+
+    @Override
+    public System getSystemByName(String name) {
+        Criteria cr = sessionFactory.getCurrentSession().createCriteria(System.class);
+        cr.add(Restrictions.eq("name",name));
+        if (!cr.list().isEmpty())
+             return (System) cr.list().get(0); //uniqueResult();
+        else return null;
     }
 }

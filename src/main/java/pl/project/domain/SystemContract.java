@@ -13,12 +13,12 @@ import java.sql.Date;
 public class SystemContract {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue
     @Column(name="system_contract_id",nullable = false,unique = true)
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "system_id",nullable = false)
+    @JoinColumn(name = "systems_id_system",nullable = false)
     private System system;
 
     @Column(name = "active",nullable = false)

@@ -37,10 +37,9 @@ public class SystemDaoImpl implements SystemDao{
     }
 
     @Override
-    public void addSystem(System systemContract) {
+    public void addSystem(System system) {
         Session session = this.sessionFactory.getCurrentSession();
-        session.saveOrUpdate(systemContract);
-        return;
+        session.saveOrUpdate(system);
     }
 
     @Override

@@ -14,6 +14,6 @@ public interface SystemService {
     System getSystem(Integer id);
     void addSystem(System system);
     void deleteSystem(Integer id);
-
+    System getSystemByName(String name);
 
 }

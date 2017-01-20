@@ -13,7 +13,7 @@ import java.util.List;
 public class System {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue
     @Column(name="system_id",nullable = false)
     private Integer id;
 
@@ -23,7 +23,7 @@ public class System {
     @Column(name = "name",unique = true)
     private String name;
 
-    @Column(name = "support_group",unique = true,nullable = true)
+    @Column(name = "support_group",unique = true)
     private String supportGroup;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "system")
