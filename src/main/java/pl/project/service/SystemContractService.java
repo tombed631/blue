@@ -14,6 +14,6 @@ public interface SystemContractService {
      SystemContract getSystemContract(Integer id);
      void addSystemContract(SystemContract systemContract);
      void deleteSystemContract(Integer id);
-
+     void updateSystemContract(SystemContract systemContract);
 
 }

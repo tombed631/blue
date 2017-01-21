@@ -47,4 +47,9 @@ public class SystemContractServiceImpl implements SystemContractService {
     public void deleteSystemContract(Integer id) {
         systemContractDao.deleteById(id);
     }
+
+    @Override
+    public void updateSystemContract(SystemContract systemContract) {
+        systemContractDao.updateSystemContract(systemContract);
+    }
 }

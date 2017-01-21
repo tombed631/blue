@@ -3,6 +3,8 @@ package pl.project.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +18,7 @@ import java.util.List;
 /**
  * Created by Tom on 17.01.2017.
  */
-@RestController
+@Controller
 public class UploadController {
 
     @Autowired
@@ -56,8 +58,46 @@ public class UploadController {
 
     }
 
+
+
+    @RequestMapping(value= "/systems/add", method = RequestMethod.POST)
+    public String addSystem(@ModelAttribute("systemContract") SystemContract p){
+
+        if(systemService.getSystemByName(p.getSystem().getName())==null)
+            systemService.addSystem(p.getSystem());
+        if(p.getId() == null || p.getId() == 0 ){
+            this.systemContractService.addSystemContract(p);
+        }else{
+            //existing person, call update
+            this.systemContractService.updateSystemContract(p);
+        }
+
+        return "redirect:/";
+
+    }
+
+    @RequestMapping("/remove/{id}")
+    public String removeSystem(@PathVariable("id") int id){
+
+        this.systemContractService.deleteSystemContract(id);
+        return "redirect:/";
+    }
+
+
+    @RequestMapping("/edit/{id}")
+    public String editSystem(@PathVariable("id") int id, Model model){
+        model.addAttribute("systemContract", this.systemContractService.getSystemContract(id));
+        model.addAttribute("listSystems", this.systemContractService.getAllSystemContracts());
+        return "redirect:/";
+    }
+
+
+
+
     @ExceptionHandler(value = Exception.class)
-    public String nfeHandler(Exception e){
+    @ResponseBody
+    public String nfeHandler(Exception e)
+    {
         return e.getMessage();
     }
 

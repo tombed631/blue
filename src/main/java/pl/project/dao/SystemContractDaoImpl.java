@@ -43,10 +43,18 @@ public class SystemContractDaoImpl implements SystemContractDao {
     @Override
     public void addSystemContract(SystemContract systemContract) {
         Session session = this.sessionFactory.getCurrentSession();
-        session.saveOrUpdate(systemContract);
+        session.persist(systemContract);
         return;
 
     }
+
+    @Override
+    public void updateSystemContract(SystemContract systemContract) {
+        Session session = this.sessionFactory.getCurrentSession();
+        session.update(systemContract);
+        return;
+    }
+
 
     @Override
     public void deleteById(Integer id)

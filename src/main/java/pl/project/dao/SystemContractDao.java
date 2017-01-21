@@ -14,5 +14,6 @@ public interface SystemContractDao {
      List<SystemContract> getAll();
      SystemContract getById(Integer id);
      void addSystemContract(SystemContract systemContract);
+     void updateSystemContract(SystemContract systemContract);
      void deleteById(Integer id);
 }
