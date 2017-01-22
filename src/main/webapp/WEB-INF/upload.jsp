@@ -20,7 +20,8 @@
 
     <form action="upload" method="POST" enctype="multipart/form-data">
         <input type="file" id="file" name="file" class="filestyle" data-input="false">
-        <input class="filestyle" type="submit">
+
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
 
@@ -43,12 +44,13 @@
             <th>Authorization %</th>
             <th>Active</th>
             <th>Delete</th>
+            <th>Edit</th>
         </tr>
         </thead>
         <tbody>
 
             <c:forEach var="systemContract" items="${listSystems}">
-            <tr>
+            <tr class='clickable-row' >
                 <td><c:out value="${systemContract.id}"/></td>
                 <td><c:out value="${systemContract.system.name}"/></td>
                 <td><c:out value="${systemContract.request}"/></td>
@@ -62,6 +64,9 @@
                 <td><c:out value="${systemContract.active}"/></td>
                 <td>    <button type="button" onclick="deleteItem(${systemContract
                 .id})" class="btn btn-danger">Delete</button> </td>
+
+                <td>    <button type="button" onclick="editItem(${systemContract
+                        .id})" class="btn  btn btn-warning">Edit</button> </td>
 
             </tr>
             </c:forEach>
@@ -103,7 +108,7 @@
                 <fieldset class="form-group">
                     <label for="orderNumber">Order Number</label>
                     <form:input id="orderNumber" class="form-control opisTextarea" path="orderNumber" rows="4"
-                                placeholder="Order Number"/>
+                                placeholder="Order Number" value="${orderNumber}"/>
                     <div class="has-error">
                         <form:errors path="orderNumber" class="help-inline"/>
                     </div>
@@ -195,10 +200,15 @@
     function deleteItem(id) {
         if (confirm("Do you want delete this item?")) {
             window.location = '/remove/' + id;
-
         }
         return false;
     }
+
+
+   
+
+
+
 
 </script>
 
