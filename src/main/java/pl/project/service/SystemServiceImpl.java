@@ -48,6 +48,12 @@ public class SystemServiceImpl implements SystemService{
         systemDao.deleteById(id);
     }
 
+
+    /**
+     * Zwraca system po jego nazwie. Jeżeli nie istnieje to null
+     * @param name
+     * @return
+     */
     @Override
     public System getSystemByName(String name) {
         Criteria cr = sessionFactory.getCurrentSession().createCriteria(System.class);

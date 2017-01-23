@@ -172,4 +172,21 @@ public class SystemContract {
         result = 31 * result + orderNumber.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "SystemContract{" +
+                "id=" + id +
+                ", system=" + system +
+                ", active=" + active +
+                ", amount=" + amount +
+                ", amountPeriod='" + amountPeriod + '\'' +
+                ", amountType='" + amountType + '\'' +
+                ", authorizationPercent=" + authorizationPercent +
+                ", fromDate=" + fromDate +
+                ", toDate=" + toDate +
+                ", request='" + request + '\'' +
+                ", orderNumber='" + orderNumber + '\'' +
+                '}';
+    }
 }

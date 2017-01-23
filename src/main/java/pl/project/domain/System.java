@@ -87,4 +87,18 @@ public class System {
         result = 31 * result + systemContracts.hashCode();
         return result;
     }
+
+
+
+    @Override
+    public String toString() {
+        return "System{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", name='" + name + '\'' +
+                ", supportGroup='" + supportGroup + '\'' +
+                ", systemContracts=" + systemContracts +
+                '}';
+    }
+
 }

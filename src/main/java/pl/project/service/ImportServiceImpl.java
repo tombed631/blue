@@ -4,19 +4,18 @@ import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import pl.project.domain.System;
 import pl.project.domain.SystemContract;
-import pl.project.exception.CustomException;
 
 import java.io.ByteArrayInputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 /**
@@ -37,9 +36,17 @@ public class ImportServiceImpl implements ImportService {
     @Autowired
     SystemServiceImpl systemService;
 
-    @Override
-    public void readExcelFile(MultipartFile file) throws Exception {
 
+    /**
+     * Obsługa czytania excela, zwraca hasmape z wiadomością, 'obsługa wyjatkow' poprzez
+     * odpowiednie wiadomosci
+     * @param file
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public HashMap<String,String> readExcelFile(MultipartFile file) throws Exception {
+        HashMap<String,String> toReturn = new HashMap<>();
         Workbook workbook;
         ByteArrayInputStream bis = new ByteArrayInputStream(file.getBytes());
         if (file.getOriginalFilename().endsWith("xls"))
@@ -62,7 +69,10 @@ public class ImportServiceImpl implements ImportService {
 
             rowIndex = row.getRowNum()+1;
             if(row.getRowNum() == 0 && !row.getCell(0).getStringCellValue().equalsIgnoreCase("system"))
-                throw new CustomException("Bad content of file.");
+            {
+                toReturn.put("error","Bad content of file.");
+                return toReturn;
+            }
             if (row.getRowNum() != 0) {
                 Iterator<Cell> cellIterator = row.cellIterator();
                 Integer columnIndex = 0;
@@ -70,9 +80,11 @@ public class ImportServiceImpl implements ImportService {
                 {
                     Cell cell = cellIterator.next();
                     if(!checkCellValues(cell,columnIndex))
-                        throw new CustomException("Bad cell value in " + columnIndex + " column and " + rowIndex + " row.");
+                    {
+                        toReturn.put("error","Bad cell value in " + columnIndex + " column and " + rowIndex + " row.");
+                        return toReturn;
+                    }
                     columnIndex++;
-
                 }
                 if(systemService.getSystemByName(system.getName())!=null)
                     system = systemService.getSystemByName(system.getName());
@@ -82,10 +94,22 @@ public class ImportServiceImpl implements ImportService {
             }
         }
 
+        if(systemList.size()==0 || systemContractList.size()==0)
+        {
+            toReturn.put("error","File s empty or blank.");
+            return toReturn;
+        }
+        toReturn.put("success","true");
+        return toReturn;
     }
 
 
-
+    /**
+     * Sprawdza kolumny w excelu, czy są poprawne oraz czy są dobrego typu
+     * @param cell
+     * @param columnIndex
+     * @return
+     */
     @Override
     public boolean checkCellValues(Cell cell, Integer columnIndex) {
 
